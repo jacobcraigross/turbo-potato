@@ -1,2 +1,4 @@
-package com.coldcoffee.demo.repository;public interface AuthorRepository {
+package com.coldcoffee.demo.repository;
+
+public interface AuthorRepository {
 }
