@@ -19,7 +19,7 @@ public class Book {
 
     private String title;
 
-    @ManyToOne(cascade = CascadeType.ALL) // Many books have one author
+    @ManyToOne(cascade = CascadeType.ALL) // --> One author can write many books. 
     @JoinColumn(name = "author_id")
     private Author author;
 }
