@@ -4,6 +4,8 @@ import com.coldcoffee.demo.mapper.Mapper;
 import com.coldcoffee.demo.model.AuthorEntity;
 import com.coldcoffee.demo.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +24,9 @@ public class AuthorController {
     }
 
     @PostMapping("/authors")
-    public AuthorDTO createAuthor(@RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
         AuthorEntity authorEntity = authorMapper.mapFromDTOToEntity(authorDTO);
         AuthorEntity savedAuthorEntity = authorService.createAuthor(authorEntity);
-        return authorMapper.mapFromEntityToDTO(savedAuthorEntity);
+        return new ResponseEntity<>(authorMapper.mapFromEntityToDTO(savedAuthorEntity), HttpStatus.CREATED);
     }
 }
