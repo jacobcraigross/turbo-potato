@@ -1,28 +1,28 @@
 package com.coldcoffee.demo;
-import com.coldcoffee.demo.model.Author;
-import com.coldcoffee.demo.model.Book;
+import com.coldcoffee.demo.model.AuthorEntity;
+import com.coldcoffee.demo.model.BookEntity;
 
 public final class TestDataUtility {
     private TestDataUtility(){}
 
-    public static Author createTestAuthorOne() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorOne() {
+        return AuthorEntity.builder()
                 .id(1L)
                 .name("Jake")
                 .age(20)
                 .build();
     }
 
-    public static Author createTestAuthorTwo() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorTwo() {
+        return AuthorEntity.builder()
                 .id(2L)
                 .name("Lauren")
                 .age(30)
                 .build();
     }
 
-    public static Author createTestAuthorThree() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorThree() {
+        return AuthorEntity.builder()
                 .id(3L)
                 .name("Joelle")
                 .age(40)
@@ -31,27 +31,27 @@ public final class TestDataUtility {
 
 
 
-    public static Book createTestBookOne(Author author) {
-        return Book.builder()
+    public static BookEntity createTestBookOne(AuthorEntity authorEntity) {
+        return BookEntity.builder()
                 .isbn("123")
                 .title("Blood")
-                .author(author)
+                .authorEntity(authorEntity)
                 .build();
     }
 
-    public static Book createTestBookTwo(Author author) {
-        return Book.builder()
+    public static BookEntity createTestBookTwo(AuthorEntity authorEntity) {
+        return BookEntity.builder()
                 .isbn("456")
                 .title("Fire")
-                .author(author)
+                .authorEntity(authorEntity)
                 .build();
     }
 
-    public static Book createTestBookThree(Author author) {
-        return Book.builder()
+    public static BookEntity createTestBookThree(AuthorEntity authorEntity) {
+        return BookEntity.builder()
                 .isbn("789")
                 .title("Death")
-                .author(author)
+                .authorEntity(authorEntity)
                 .build();
     }
 }

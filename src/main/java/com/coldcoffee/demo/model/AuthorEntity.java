@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity // ---> JPA
 @Table(name = "authors") // ---> JPA
-public class Author {
+public class AuthorEntity {
     @Id // ---> JPA
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id_seq") // ---> JPA
     private Long id;
