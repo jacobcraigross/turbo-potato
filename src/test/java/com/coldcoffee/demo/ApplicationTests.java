@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest // ---> this annotation means Integration test
-class DemoApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {

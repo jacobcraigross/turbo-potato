@@ -1,4 +1,6 @@
 package com.coldcoffee.demo;
+import com.coldcoffee.demo.DTO.AuthorDTO;
+import com.coldcoffee.demo.DTO.BookDTO;
 import com.coldcoffee.demo.model.AuthorEntity;
 import com.coldcoffee.demo.model.BookEntity;
 
@@ -52,6 +54,14 @@ public final class TestDataUtility {
                 .isbn("789")
                 .title("Death")
                 .authorEntity(authorEntity)
+                .build();
+    }
+
+    public static BookDTO createTestBookDTO(AuthorDTO authorDTO) {
+        return BookDTO.builder()
+                .isbn("hhh-222-444-jjj")
+                .title("The Book of Life")
+                .authorDTO(authorDTO)
                 .build();
     }
 }

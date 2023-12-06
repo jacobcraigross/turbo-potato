@@ -48,9 +48,8 @@ public class AuthorControllerIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/authors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authorJson))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Jake"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20)
-        );
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Jake"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20));
     }
 }
