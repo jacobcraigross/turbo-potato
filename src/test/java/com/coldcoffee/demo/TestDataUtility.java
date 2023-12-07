@@ -36,7 +36,7 @@ public final class TestDataUtility {
     public static BookEntity createTestBookOne(AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .isbn("123")
-                .title("Blood")
+                .title("Jake")
                 .authorEntity(authorEntity)
                 .build();
     }
