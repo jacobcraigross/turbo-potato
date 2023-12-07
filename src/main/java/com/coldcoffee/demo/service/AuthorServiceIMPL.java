@@ -37,4 +37,10 @@ public class AuthorServiceIMPL implements AuthorService {
     public Optional<AuthorEntity> getAuthorById(Long id) {
         return authorRepository.findById(id);
     }
+
+    // ---------- UPDATE AUTHOR BY ID ----------------------------------------------------------------------------------
+    @Override
+    public AuthorEntity updateAuthorById(Long id, AuthorEntity authorEntity) {
+        return authorRepository.save(authorEntity);
+    }
 }

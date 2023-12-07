@@ -12,4 +12,6 @@ public interface AuthorService {
 
     Optional<AuthorEntity> getAuthorById(Long id);
 
+    AuthorEntity updateAuthorById(Long id, AuthorEntity authorEntity);
+
 }

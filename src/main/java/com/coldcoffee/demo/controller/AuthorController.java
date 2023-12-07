@@ -55,6 +55,17 @@ public class AuthorController {
 
 
     // ---------- UPDATE AUTHOR ----------------------------------------------------------------------------------------
+    @PutMapping("/authors/{id}")
+    public ResponseEntity<AuthorDTO> updateAuthorById(@PathVariable("id") Long id, @RequestBody AuthorDTO authorDTO) {
+        if (authorService.getAuthorById(id).isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            authorDTO.setId(id);
+            AuthorEntity authorEntity = authorMapper.mapFromDTOToEntity(authorDTO);
+            AuthorEntity updatedAuthorEntity = authorService.updateAuthorById(id, authorEntity);
+            return new ResponseEntity<>(authorMapper.mapFromEntityToDTO(updatedAuthorEntity), HttpStatus.OK);
+        }
+    }
 
 
 

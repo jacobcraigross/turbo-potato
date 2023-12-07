@@ -3,6 +3,7 @@ import com.coldcoffee.demo.model.BookEntity;
 import com.coldcoffee.demo.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -30,6 +31,13 @@ public class BookServiceIMPL implements BookService {
     @Override
     public List<BookEntity> getAllBooks() {
         return StreamSupport.stream(bookRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+
+    // ---------- GET BOOK BY ISBN -------------------------------------------------------------------------------------
+    @Override
+    public Optional<BookEntity> getBookByIsbn(String isbn) {
+        return bookRepository.findById(isbn);
     }
 
 

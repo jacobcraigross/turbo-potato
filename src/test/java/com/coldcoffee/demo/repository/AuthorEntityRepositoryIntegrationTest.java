@@ -25,7 +25,7 @@ public class AuthorEntityRepositoryIntegrationTest {
 
     @Test
     public void testThat__OneAuthorCanBeCreatedAndFetched() {
-        AuthorEntity authorEntity = TestDataUtility.createTestAuthorOne();
+        AuthorEntity authorEntity = TestDataUtility.createTestAuthorEntityOne();
         authorRepositoryUnderTest.save(authorEntity);
         Optional<AuthorEntity> result = authorRepositoryUnderTest.findById(authorEntity.getId());
         assertThat(result).isPresent();
@@ -34,11 +34,11 @@ public class AuthorEntityRepositoryIntegrationTest {
 
     @Test
     public void testThat__ManyAuthorsCanBeCreatedAndFetched() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
         authorRepositoryUnderTest.save(authorEntityOne);
-        AuthorEntity authorEntityTwo = TestDataUtility.createTestAuthorTwo();
+        AuthorEntity authorEntityTwo = TestDataUtility.createTestAuthorEntityTwo();
         authorRepositoryUnderTest.save(authorEntityTwo);
-        AuthorEntity authorEntityThree = TestDataUtility.createTestAuthorThree();
+        AuthorEntity authorEntityThree = TestDataUtility.createTestAuthorEntityThree();
         authorRepositoryUnderTest.save(authorEntityThree);
         Iterable<AuthorEntity> result = authorRepositoryUnderTest.findAll();
         assertThat(result).hasSize(3);
@@ -47,7 +47,7 @@ public class AuthorEntityRepositoryIntegrationTest {
 
     @Test
     public void testThat__OneAuthorCanBeUpdated() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
         authorRepositoryUnderTest.save(authorEntityOne);
         authorEntityOne.setName("UPDATED");
         authorRepositoryUnderTest.save(authorEntityOne); // --> save is used for both creating and updating in JPA
@@ -57,7 +57,7 @@ public class AuthorEntityRepositoryIntegrationTest {
     }
     @Test
     public void testThat__OneAuthorCanBeDeleted() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
         authorRepositoryUnderTest.save(authorEntityOne);
         authorRepositoryUnderTest.deleteById(authorEntityOne.getId());
         Optional<AuthorEntity> result = authorRepositoryUnderTest.findById(authorEntityOne.getId());
@@ -68,11 +68,11 @@ public class AuthorEntityRepositoryIntegrationTest {
     // this is a test to show that JPA can automatically generate the SQL queries based on the entities and fields.
     @Test
     public void testThat__AuthorsWithAgeLessThan() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
         authorRepositoryUnderTest.save(authorEntityOne);
-        AuthorEntity authorEntityTwo = TestDataUtility.createTestAuthorTwo();
+        AuthorEntity authorEntityTwo = TestDataUtility.createTestAuthorEntityTwo();
         authorRepositoryUnderTest.save(authorEntityTwo);
-        AuthorEntity authorEntityThree = TestDataUtility.createTestAuthorThree();
+        AuthorEntity authorEntityThree = TestDataUtility.createTestAuthorEntityThree();
         authorRepositoryUnderTest.save(authorEntityThree);
         Iterable<AuthorEntity> result = authorRepositoryUnderTest.ageLessThan(35);
         assertThat(result).containsExactly(authorEntityOne, authorEntityTwo);
@@ -81,11 +81,11 @@ public class AuthorEntityRepositoryIntegrationTest {
     // but it has its limits so this test will showcase some HQL we can use to help JPA figure out the query.
     @Test
     public void testThat__GetAuthorsWithAgeGreaterThan() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
         authorRepositoryUnderTest.save(authorEntityOne);
-        AuthorEntity authorEntityTwo = TestDataUtility.createTestAuthorTwo();
+        AuthorEntity authorEntityTwo = TestDataUtility.createTestAuthorEntityTwo();
         authorRepositoryUnderTest.save(authorEntityTwo);
-        AuthorEntity authorEntityThree = TestDataUtility.createTestAuthorThree();
+        AuthorEntity authorEntityThree = TestDataUtility.createTestAuthorEntityThree();
         authorRepositoryUnderTest.save(authorEntityThree);
         // purposefully named to confuse JPA so we can use @Query and write out the HQL in the repository
         Iterable<AuthorEntity> result = authorRepositoryUnderTest.findAuthorsWithAgeGreaterThan(39);

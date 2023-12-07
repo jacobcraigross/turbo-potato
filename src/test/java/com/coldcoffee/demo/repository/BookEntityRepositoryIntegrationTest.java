@@ -25,8 +25,8 @@ public class BookEntityRepositoryIntegrationTest {
 
     @Test
     public void testThat__OneBookCanBeCreatedAndFetched() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
-        BookEntity bookEntityOne = TestDataUtility.createTestBookOne(authorEntityOne);
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
+        BookEntity bookEntityOne = TestDataUtility.createTestBookEntityOne(authorEntityOne);
         bookRepositoryUnderTest.save(bookEntityOne);
         Optional<BookEntity> result = bookRepositoryUnderTest.findById(bookEntityOne.getIsbn());
         assertThat(result).isPresent();
@@ -35,12 +35,12 @@ public class BookEntityRepositoryIntegrationTest {
 
     @Test
     public void testThat__ManyBooksCanBeCreatedAndFetched() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
-        BookEntity bookEntityOne = TestDataUtility.createTestBookOne(authorEntityOne);
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
+        BookEntity bookEntityOne = TestDataUtility.createTestBookEntityOne(authorEntityOne);
         bookRepositoryUnderTest.save(bookEntityOne);
-        BookEntity bookEntityTwo = TestDataUtility.createTestBookTwo(authorEntityOne);
+        BookEntity bookEntityTwo = TestDataUtility.createTestBookEntityTwo(authorEntityOne);
         bookRepositoryUnderTest.save(bookEntityTwo);
-        BookEntity bookEntityThree = TestDataUtility.createTestBookThree(authorEntityOne);
+        BookEntity bookEntityThree = TestDataUtility.createTestBookEntityThree(authorEntityOne);
         bookRepositoryUnderTest.save(bookEntityThree);
         Iterable<BookEntity> result = bookRepositoryUnderTest.findAll();
         assertThat(result).hasSize(3);
@@ -49,8 +49,8 @@ public class BookEntityRepositoryIntegrationTest {
 
     @Test
     public void TestThat__OneBookCanBeUpdated() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
-        BookEntity bookEntityOne = TestDataUtility.createTestBookOne(authorEntityOne);
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
+        BookEntity bookEntityOne = TestDataUtility.createTestBookEntityOne(authorEntityOne);
         bookRepositoryUnderTest.save(bookEntityOne);
         bookEntityOne.setTitle("UPDATED");
         bookRepositoryUnderTest.save(bookEntityOne);
@@ -61,8 +61,8 @@ public class BookEntityRepositoryIntegrationTest {
 
     @Test
     public void testThat__OneBookCanBeDeleted() {
-        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorOne();
-        BookEntity bookEntityOne = TestDataUtility.createTestBookOne(authorEntityOne);
+        AuthorEntity authorEntityOne = TestDataUtility.createTestAuthorEntityOne();
+        BookEntity bookEntityOne = TestDataUtility.createTestBookEntityOne(authorEntityOne);
         bookRepositoryUnderTest.save(bookEntityOne);
         bookRepositoryUnderTest.deleteById(bookEntityOne.getIsbn());
         Optional<BookEntity> result = bookRepositoryUnderTest.findById(bookEntityOne.getIsbn());
