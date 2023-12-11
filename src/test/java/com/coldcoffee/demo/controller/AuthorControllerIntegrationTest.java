@@ -141,6 +141,44 @@ public class AuthorControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(testAuthor.getAge()));
     }
 
+    // ---------- TEST THAT UPDATE AUTHOR BY ID (PARTIAL) RETURNS 200 WHEN AUTHOR EXISTS -------------------------------
+    @Test
+    public void testThat__UpdateAuthorByIdPartialReturns200WhenAuthorExists() throws Exception {
+        AuthorEntity testAuthorEntityOne = TestDataUtility.createTestAuthorEntityOne();
+        AuthorEntity savedAuthor = authorService.createAuthor(testAuthorEntityOne);
+        AuthorDTO testAuthorDTO = TestDataUtility.createTestAuthorDTO(null);
+        testAuthorDTO.setName("UPDATED NAME");
+        String authorJson = objectMapper.writeValueAsString(testAuthorDTO);
+        mockMvc.perform(MockMvcRequestBuilders.patch("/authors/" + savedAuthor.getId()).contentType("application/json").content(authorJson))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
+    // ---------- TEST THAT UPDATE AUTHOR BY ID (PARTIAL) RETURNS UPDATED AUTHOR ---------------------------------------
+    @Test
+    public void testThat__UpdateAuthorByIdPartialReturnsPartiallyUpdatedAuthor() throws Exception {
+        AuthorEntity testAuthorEntityOne = TestDataUtility.createTestAuthorEntityOne();
+        AuthorEntity savedAuthor = authorService.createAuthor(testAuthorEntityOne);
+        AuthorDTO testAuthorDTO = TestDataUtility.createTestAuthorDTO(null);
+        testAuthorDTO.setName("UPDATED NAME");
+        String authorJson = objectMapper.writeValueAsString(testAuthorDTO);
+        mockMvc.perform(MockMvcRequestBuilders.put("/authors/" + savedAuthor.getId()).contentType(MediaType.APPLICATION_JSON).content(authorJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(savedAuthor.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("UPDATED NAME"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(testAuthorDTO.getAge()));
+    }
+
+    // DELETE TEST --> 200 OK
+    @Test
+    public void testThat__DeleteAuthorReturns200() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/authors/999").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    // ADD ANOTHER DELETE TEST HERE LATER POSSIBLY....
+
+
+
 
 
 

@@ -19,9 +19,9 @@ public class BookServiceIMPL implements BookService {
     }
 
 
-    // ---------- CREATE BOOK ------------------------------------------------------------------------------------------
+    // ---------- CREATE OR UPDATE BOOK ------------------------------------------------------------------------------------------
     @Override
-    public BookEntity createBook(String isbn, BookEntity bookEntity) {
+    public BookEntity createOrUpdateBook(String isbn, BookEntity bookEntity) {
         bookEntity.setIsbn(isbn);
         return bookRepository.save(bookEntity);
     }
@@ -38,6 +38,27 @@ public class BookServiceIMPL implements BookService {
     @Override
     public Optional<BookEntity> getBookByIsbn(String isbn) {
         return bookRepository.findById(isbn);
+    }
+
+
+    // ---------- DOES BOOK EXIST -------------------------------------------------------------------------------------
+    @Override
+    public boolean doesBookExist(String isbn) {
+        return bookRepository.existsById(isbn);
+    }
+
+    // ---------- PARTIAL UPDATE BOOK BY ISBN --------------------------------------------------------------------------
+    @Override
+    public BookEntity updateBookByIsbnPartial(String isbn, BookEntity bookEntity) {
+        return bookRepository.findById(isbn).map(existingBook -> {
+            Optional.ofNullable(bookEntity.getTitle()).ifPresent(existingBook::setTitle);
+            return bookRepository.save(existingBook);
+        }).orElseThrow(() -> new RuntimeException("Book doesnt exist"));
+    }
+
+    @Override
+    public void deleteBook(String isbn) {
+        bookRepository.deleteById(isbn);
     }
 
 

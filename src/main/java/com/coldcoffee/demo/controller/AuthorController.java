@@ -54,7 +54,7 @@ public class AuthorController {
     }
 
 
-    // ---------- UPDATE AUTHOR ----------------------------------------------------------------------------------------
+    // ---------- UPDATE AUTHOR BY ID (FULL) ----------------------------------------------------------------------------------
     @PutMapping("/authors/{id}")
     public ResponseEntity<AuthorDTO> updateAuthorById(@PathVariable("id") Long id, @RequestBody AuthorDTO authorDTO) {
         if (authorService.getAuthorById(id).isEmpty()) {
@@ -68,8 +68,25 @@ public class AuthorController {
     }
 
 
+    // ---------- UPDATE AUTHOR BY ID (PARTIAL) ------------------------------------------------------------------------
+    @PatchMapping ("/authors/{id}")
+    public ResponseEntity<AuthorDTO> updateAuthorByIdPartial(@PathVariable("id") Long id, @RequestBody AuthorDTO authorDTO) {
+        if (authorService.getAuthorById(id).isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            authorDTO.setId(id);
+            AuthorEntity authorEntity = authorMapper.mapFromDTOToEntity(authorDTO);
+            AuthorEntity updatedAuthorEntity = authorService.updateAuthorByIdPartial(id, authorEntity);
+            return new ResponseEntity<>(authorMapper.mapFromEntityToDTO(updatedAuthorEntity), HttpStatus.OK);
+        }
+    }
+
 
     // ---------- DELETE AUTHOR ----------------------------------------------------------------------------------------
-
+    @DeleteMapping("/authors/{id}")
+    public ResponseEntity<Void> deleteAuthor(@PathVariable("id") Long id) {
+        authorService.deleteAuthor(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

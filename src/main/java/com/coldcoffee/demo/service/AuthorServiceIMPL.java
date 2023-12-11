@@ -43,4 +43,19 @@ public class AuthorServiceIMPL implements AuthorService {
     public AuthorEntity updateAuthorById(Long id, AuthorEntity authorEntity) {
         return authorRepository.save(authorEntity);
     }
+
+    // ---------- UPDATE AUTHOR BY ID (PARTIAL) ------------------------------------------------------------------------
+    @Override
+    public AuthorEntity updateAuthorByIdPartial(Long id, AuthorEntity authorEntity) {
+        return authorRepository.findById(id).map(existingAuthor -> {
+            Optional.ofNullable(authorEntity.getName()).ifPresent(existingAuthor::setName);
+            Optional.ofNullable(authorEntity.getAge()).ifPresent(existingAuthor::setAge);
+            return authorRepository.save(existingAuthor);
+        }).orElseThrow(() -> new RuntimeException("Author doesnt exist"));
+    }
+
+    @Override
+    public void deleteAuthor(Long id) {
+        authorRepository.deleteById(id);
+    }
 }

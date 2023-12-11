@@ -26,14 +26,25 @@ public class BookController {
     }
 
 
-    // ---------- CREATE BOOK ------------------------------------------------------------------------------------------
-    @PutMapping("/books/{isbn}") // PUT mapping because the ISBN (design dec)
-    public ResponseEntity<BookDTO> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDTO bookDTO) {
+    // ---------- CREATE OR UPDATE BOOK --------------------------------------------------------------------------------
+    @PutMapping("/books/{isbn}")
+    public ResponseEntity<BookDTO> createOrUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDTO bookDTO) {
+
         BookEntity bookEntity = bookMapper.mapFromDTOToEntity(bookDTO);
-        BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+        boolean bookExists = bookService.doesBookExist(isbn);
+        BookEntity savedBookEntity = bookService.createOrUpdateBook(isbn, bookEntity);
         BookDTO savedBookDTO = bookMapper.mapFromEntityToDTO(savedBookEntity);
-        return new ResponseEntity<>(savedBookDTO, HttpStatus.CREATED);
+
+        if (bookExists) {
+            // update
+            return new ResponseEntity<>(savedBookDTO, HttpStatus.OK);
+        } else {
+            // create
+            return new ResponseEntity<>(savedBookDTO, HttpStatus.CREATED);
+        }
+
     }
+
 
     // ---------- GET ALL BOOKS ----------------------------------------------------------------------------------------
     @GetMapping("/books")
@@ -41,6 +52,7 @@ public class BookController {
         List<BookEntity> books = bookService.getAllBooks();
         return books.stream().map(bookMapper::mapFromEntityToDTO).collect(java.util.stream.Collectors.toList());
     }
+
 
     // ---------- GET BOOK BY ISBN -------------------------------------------------------------------------------------
     @GetMapping("/books/{isbn}")
@@ -51,5 +63,26 @@ public class BookController {
             return new ResponseEntity<>(bookDTO, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    // ---------- PARTIAL UPDATE BOOK BY ISBN --------------------------------------------------------------------------
+    @PatchMapping("/books/{isbn}")
+    public ResponseEntity<BookDTO> updateBookByIsbnPartial(@PathVariable("isbn") String isbn, @RequestBody BookDTO bookDTO) {
+        if (bookService.getBookByIsbn(isbn).isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            bookDTO.setIsbn(isbn);
+            BookEntity bookEntity = bookMapper.mapFromDTOToEntity(bookDTO);
+            BookEntity updatedBookEntity = bookService.updateBookByIsbnPartial(isbn, bookEntity);
+            return new ResponseEntity<>(bookMapper.mapFromEntityToDTO(updatedBookEntity), HttpStatus.OK);
+        }
+    }
+
+    // ---------- DELETE BOOK ------------------------------------------------------------------------------------------
+    @DeleteMapping("/books/{isbn}")
+    public ResponseEntity<Void> deleteBook(@PathVariable("isbn") String isbn) {
+        bookService.deleteBook(isbn);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 }
