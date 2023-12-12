@@ -1,5 +1,7 @@
 package com.coldcoffee.demo.service;
 import com.coldcoffee.demo.model.BookEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,9 @@ public interface BookService {
 
     // ---------- GET ALL BOOKS ----------------------------------------------------------------------------------------
     List<BookEntity> getAllBooks();
+
+    // ---------- GET ALL BOOKS PAGINATED ------------------------------------------------------------------------------
+    Page<BookEntity> findAll(Pageable pageable);
 
     // ---------- GET BOOK BY ISBN -------------------------------------------------------------------------------------
     Optional<BookEntity> getBookByIsbn(String isbn);

@@ -1,11 +1,11 @@
 package com.coldcoffee.demo.controller;
-import com.coldcoffee.demo.DTO.AuthorDTO;
 import com.coldcoffee.demo.DTO.BookDTO;
 import com.coldcoffee.demo.mapper.Mapper;
-import com.coldcoffee.demo.model.AuthorEntity;
 import com.coldcoffee.demo.model.BookEntity;
 import com.coldcoffee.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +48,10 @@ public class BookController {
 
     // ---------- GET ALL BOOKS ----------------------------------------------------------------------------------------
     @GetMapping("/books")
-    public List<BookDTO> getAllBooks() {
-        List<BookEntity> books = bookService.getAllBooks();
-        return books.stream().map(bookMapper::mapFromEntityToDTO).collect(java.util.stream.Collectors.toList());
+    public Page<BookDTO> getAllBooks(Pageable pageable) {
+        Page<BookEntity> books = bookService.findAll(pageable);
+        return books.map(bookMapper::mapFromEntityToDTO);
+
     }
 
 

@@ -1,6 +1,8 @@
 package com.coldcoffee.demo.service;
 import com.coldcoffee.demo.model.BookEntity;
 import com.coldcoffee.demo.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +33,12 @@ public class BookServiceIMPL implements BookService {
     @Override
     public List<BookEntity> getAllBooks() {
         return StreamSupport.stream(bookRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+    // ---------- GET ALL BOOKS PAGINATED ------------------------------------------------------------------------------
+    @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
 
